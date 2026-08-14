@@ -21,7 +21,7 @@ SQLite is provided by Python's standard library.
 ## Run
 
 ```cmd
-python run_pipeline.py
+python run\_pipeline.py
 ```
 
 The pipeline discovers book categories, scrapes enough paginated category pages to produce at least 60 books across at least 3 categories, cleans the data, creates the SQLite database, executes the SQL queries, and compares the SQL JOIN with `pd.merge()`.
@@ -36,41 +36,64 @@ This is a fixed project-defined constant. No live currency API is used.
 
 ## Cleaning decisions
 
-- `price` -> `price_gbp` float after removing the currency symbol.
-- `One` through `Five` -> `rating` integers 1 through 5.
-- Availability text -> boolean `in_stock`.
-- Numeric parsing failures are median-imputed.
-- Malformed product cards missing required HTML fields are skipped instead of crashing the pipeline.
+* `price` -> `price\_gbp` float after removing the currency symbol.
+* `One` through `Five` -> `rating` integers 1 through 5.
+* Availability text -> boolean `in\_stock`.
+* Numeric parsing failures are median-imputed.
+* Malformed product cards missing required HTML fields are skipped instead of crashing the pipeline.
 
 ## Database
 
-`database/zepto_books.db` contains:
+`database/zepto\_books.db` contains:
 
-- `categories(category_id PRIMARY KEY, category_name UNIQUE)`
-- `books(book_id PRIMARY KEY, ..., category_id FOREIGN KEY)`
+* `categories(category\_id PRIMARY KEY, category\_name UNIQUE)`
+* `books(book\_id PRIMARY KEY, ..., category\_id FOREIGN KEY)`
 
 ## SQL
 
 `queries.py` runs six queries covering:
 
-- SELECT / WHERE
-- ORDER BY / LIMIT
-- DISTINCT
-- BETWEEN
-- IN
-- JOIN
+* SELECT / WHERE
+* ORDER BY / LIMIT
+* DISTINCT
+* BETWEEN
+* IN
+* JOIN
 
-Results are saved to `outputs/sql_query_results.txt`.
+Results are saved to `outputs/sql\_query\_results.txt`.
 
 ## Pandas validation
 
-The JOIN is read using `pd.read_sql_query()` and reproduced in memory using `pd.merge()`. The two results are compared and the comparison is saved to `outputs/pandas_comparison.txt`.
+The JOIN is read using `pd.read\_sql\_query()` and reproduced in memory using `pd.merge()`. The two results are compared and the comparison is saved to `outputs/pandas\_comparison.txt`.
 
 ## Generated artifacts
 
-Running `python run_pipeline.py` creates:
+Running `python run\_pipeline.py` creates:
 
-- `data/books_cleaned.csv`
-- `database/zepto_books.db`
-- `outputs/sql_query_results.txt`
-- `outputs/pandas_comparison.txt`
+* `data/books\_cleaned.csv`
+* `database/zepto\_books.db`
+* `outputs/sql\_query\_results.txt`
+* `outputs/pandas\_comparison.txt`
+
+
+
+\## Validation
+
+
+
+The pipeline was tested end to end successfully.
+
+
+
+\- 69 books scraped
+
+\- 3 categories processed
+
+\- SQLite database created successfully
+
+\- 6 SQL queries executed
+
+\- SQL JOIN reproduced using `pd.merge()`
+
+\- SQL and pandas JOIN results matched successfully
+
